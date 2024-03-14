@@ -9,7 +9,7 @@ dist = [int(x) for x in d.split(":")[1].split()]
 
 def f_simple(t, d):
     ans = 0
-    for x in range(t + 1):
+    for x in range(t):
         dx = x * (t - x)
         if dx > d:
             ans += 1
@@ -50,7 +50,7 @@ def f_binary(t, d):
 
 pt1_ans = 1
 for i in range(len(times)):
-    pt1_ans *= f_binary(times[i], dist[i])
+    pt1_ans *= f_simple(times[i], dist[i])
 
 pt2_time = int("".join(map(str, times)))
 pt2_dist = int("".join(map(str, dist)))

@@ -1,81 +1,75 @@
-BATCH_SIZE = 500000
-SEEDS = []
+with open("day05/input.txt") as fin:
+    lines = fin.read().strip().split("\n")
+
+RAW_SEEDS = list(map(int, lines[0].split(" ")[1:]))
+SEEDS = [(RAW_SEEDS[i], RAW_SEEDS[i + 1]) for i in range(0, len(RAW_SEEDS), 2)]
+
+# Generate all the mappings
 MAPS = []
-SEED_RANGES = []
+
+i = 2
+while i < len(lines):
+    MAPS.append([])
+    i += 1
+    while i < len(lines) and not lines[i] == "":
+        dstStart, srcStart, rangeLen = map(int, lines[i].split())
+        MAPS[-1].append((dstStart, srcStart, rangeLen))
+        i += 1
+    MAPS[-1].sort(key=lambda x: x[1])
+    i += 1
+
+# Ensure that all mappings are disjoint
+for m in MAPS:
+    for i in range(len(m) - 1):
+        if not m[i][1] + m[i][2] <= m[i + 1][1]:
+            print(m[i], m[i + 1])
 
 
-def destination(source, amap):
-    for k in amap:
-        if source >= k[0] and source <= k[1]:
-            return source + amap[k]
+def remap(lo, hi, m):
+    # Remap an interval (lo,hi) to a set of intervals m
+    ans = []
+    for dst, src, R in m:
+        end = src + R - 1
+        D = dst - src  # How much is this range shifted
+
+        if not (end < lo or src > hi):
+            ans.append((max(src, lo), min(end, hi), D))
+
+    for i, interval in enumerate(ans):
+        ilo, ihi, iD = interval
+        yield (ilo + iD, ihi + iD)
+
+        if i < len(ans) - 1 and ans[i + 1][0] > ihi + 1:
+            yield (ihi + 1, ans[i + 1][0] - 1)
+
+    # Deal with end and start ranges not in intervals
+    if len(ans) == 0:
+        yield (lo, hi)
+        return
+
+    if ans[0][0] != lo:
+        yield (lo, ans[0][0] - 1)
+    if ans[-1][1] != hi:
+        yield (ans[-1][1] + 1, hi)
 
 
-def get_min(start_min, s, e):
-    # print("get_min:", start_min, s, e)
-    for src in range(s, e):
-        res = src
+def find_location(seeds):
+    ans = 1 << 60
+    for start, R in seeds:
+        cur_intervals = [(start, start + R - 1)]
+        new_intervals = []
+
         for m in MAPS:
-            res = destination(res, m)
-        if res < start_min:
-            start_min = res
-    return start_min
+            for lo, hi in cur_intervals:
+                for new_interval in remap(lo, hi, m):
+                    new_intervals.append(new_interval)
+
+            cur_intervals, new_intervals = new_intervals, []
+
+        for lo, hi in cur_intervals:
+            ans = min(ans, lo)
+    return ans
 
 
-with open("day05/input.txt", "r") as file:
-    in_map = False
-    amap = {}
-    lines = file.read().splitlines()
-    lines.append("")
-    for line in lines:
-        if line.startswith("seeds:"):
-            SEEDS = [int(x) for x in line.split(":")[1].split()]
-            for i in range(0, len(SEEDS), 2):
-                SEED_RANGES.append((SEEDS[i], SEEDS[i + 1]))
-        else:
-            if line.endswith("map:"):
-                in_map = True
-            if in_map and line and line[0].isdigit():
-                (dest, src, num) = map(lambda x: int(x), line.split())
-                diff = dest - src
-                amap[src] = (num, diff)
-            if in_map and len(line) == 0:
-                rmap = {}
-                start = 0
-                for k in sorted(amap):
-                    if k > start:
-                        rmap[(start, k - 1)] = 0
-                    end_k = k + amap[k][0] - 1
-                    rmap[(k, end_k)] = amap[k][1]
-                    start = end_k + 1
-                rmap[(start, 9999999999999)] = 0
-                MAPS.append(rmap)
-                amap = {}
-
-
-p1_min = 999999999999
-for seed in SEEDS:
-    result = seed
-    for m in MAPS:
-        result = destination(result, m)
-    if result < p1_min:
-        p1_min = result
-
-p2_min = 9999999999999
-for start, num in SEED_RANGES:
-    if num > BATCH_SIZE:
-        batches = int(num / BATCH_SIZE)
-        for batch in range(0, batches):
-            print("batch: ", batch, batches, p2_min)
-            result = get_min(
-                p2_min,
-                start + (batch * BATCH_SIZE),
-                start - 1 + ((batch + 1) * BATCH_SIZE),
-            )
-            if result < p2_min:
-                p2_min = result
-        result = get_min(p2_min, batches * BATCH_SIZE + start, start + num - 1)
-        if result < p2_min:
-            p2_min = result
-
-print("Part 1:", p1_min)
-print("Part 2:", p2_min)
+print("Part 1:", find_location(map(lambda x: (x, 1), RAW_SEEDS)))
+print("Part 2:", find_location(SEEDS))
