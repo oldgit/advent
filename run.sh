@@ -1,25 +1,10 @@
-python day01.py
-python day02.py
-python day03.py
-python day04.py
-python day05.py
-python day06.py
-python day07.py
-python day08.py
-python day09.py
-python day10.py
-python day11.py
-python day12.py
-python day13.py
-python day14.py
-python day15.py
-python day16.py
-python day17.py
-python day18.py
-python day19.py
-python day20.py
-python day21.py
-python day22.py
-python day23.py
-python day24.py
-python day25.py
+#!/bin/sh
+i=1
+while [ "$i" -le 25 ]; do
+  day_file="day$i.py"
+  if [ "$i" -lt 10 ]; then
+    day_file="day0$i.py"
+  fi
+  python "$day_file"
+  i=$(( i + 1 ))
+done
