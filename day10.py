@@ -1,4 +1,10 @@
-with open("day10/input.txt") as fin:
+import sys
+
+from util import expected_for_day
+
+DAY = sys.argv[0].split(".")[0]
+
+with open(f"{DAY}/input.txt") as fin:
     lines = fin.read().strip().split("\n")
 
 n, m = len(lines), len(lines[0])
@@ -80,13 +86,18 @@ def count_invs(i, j):
     return count
 
 
-ans_pt2 = 0
+p1_result = len(visited) // 2
+p2_result = 0
 for i, line in enumerate(lines):
     for j in range(m):
         if (i, j) not in visited:
             invs = count_invs(i, j)
             if invs % 2 == 1:
-                ans_pt2 += 1
+                p2_result += 1
 
-print("Part 1:", len(visited) // 2)
-print("Part 2:", ans_pt2)
+
+p1_expected, p2_expected = expected_for_day(DAY)
+assert p1_result == p1_expected
+assert p2_result == p2_expected
+print(f"{DAY} Part 1: {p1_result}")
+print(f"{DAY} Part 2: {p2_result}")

@@ -1,5 +1,10 @@
-from functools import cmp_to_key
+import sys
 from collections import defaultdict
+from functools import cmp_to_key
+
+from util import expected_for_day
+
+DAY = sys.argv[0].split(".")[0]
 
 WITH_JOKERS = False
 LABELS = "AKQJT98765432"
@@ -78,7 +83,7 @@ def compare(a, b):
 
 
 LINES = []
-with open("day07/input.txt") as fin:
+with open(f"{DAY}/input.txt") as fin:
     raw_lines = fin.read().strip().split("\n")
     for line in raw_lines:
         hand_bid = line.split()
@@ -95,5 +100,9 @@ P2_LINES = sorted(LINES, key=cmp_to_key(lambda x, y: compare(x[0], y[0])))
 for i, line in enumerate(P2_LINES):
     pt2_result += (i + 1) * line[1]
 
-print("Part 1:", pt1_result)
-print("Part 2:", pt2_result)
+
+p1_expected, p2_expected = expected_for_day(DAY)
+assert pt1_result == p1_expected
+assert pt2_result == p2_expected
+print(f"{DAY} Part 1: {pt1_result}")
+print(f"{DAY} Part 2: {pt2_result}")

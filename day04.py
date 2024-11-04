@@ -1,4 +1,9 @@
+import sys
 from collections import Counter
+
+from util import expected_for_day
+
+DAY = sys.argv[0].split(".")[0]
 
 """
 Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53
@@ -29,20 +34,20 @@ def get_card_points(line):
 
 pt1_result = 0
 pt2_card_copies = Counter()
-with open("day04/input.txt", "r") as file:
-    for line in file.read().splitlines():
-        pt1_result = pt1_result + get_card_points(line)
+with open(f"{DAY}/input.txt", "r") as file:
+    for line_in in file.read().splitlines():
+        pt1_result = pt1_result + get_card_points(line_in)
 
 for i, card in enumerate(CARDS):
     card_id = i + 1
     # Add the original card as a copy.
     pt2_card_copies[card_id] += 1
 
-    wins = card[0]
-    nums = card[1]
+    wins2 = card[0]
+    nums2 = card[1]
     matches = 0
-    for n in nums:
-        if n in wins:
+    for n in nums2:
+        if n in wins2:
             matches += 1
 
     max_card_id = len(CARDS)
@@ -50,5 +55,10 @@ for i, card in enumerate(CARDS):
         if copy_id <= max_card_id:
             pt2_card_copies[copy_id] += pt2_card_copies[card_id]
 
-print("Part 1:", pt1_result)
-print("Part 2:", sum(pt2_card_copies.values()))
+pt2_result = sum(pt2_card_copies.values())
+
+p1_expected, p2_expected = expected_for_day(DAY)
+assert pt1_result == p1_expected
+assert pt2_result == p2_expected
+print(f"{DAY} Part 1: {pt1_result}")
+print(f"{DAY} Part 2: {pt2_result}")

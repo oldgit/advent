@@ -1,10 +1,8 @@
-"""
-Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
-Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue
-Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red
-Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red
-Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green
-"""
+import sys
+
+from util import expected_for_day
+
+DAY = sys.argv[0].split(".")[0]
 
 POSSIBLE_NUMBERS = {"red": 12, "green": 13, "blue": 14}
 
@@ -33,13 +31,16 @@ def game_power(sets):
 
 game_sum = 0
 total_power = 0
-with open("day02/input.txt", "r") as file:
+with open(f"{DAY}/input.txt", "r") as file:
     for line in file.read().splitlines():
-        (game, sets) = line.split(": ")
+        (game, sets_in) = line.split(": ")
         game_number = int(game.split(" ")[1])
-        if is_possible(sets):
+        if is_possible(sets_in):
             game_sum = game_sum + game_number
-        total_power = total_power + game_power(sets)
+        total_power = total_power + game_power(sets_in)
 
-print("Part 1:", game_sum)
-print("Part 2:", total_power)
+p1_expected, p2_expected = expected_for_day(DAY)
+assert game_sum == p1_expected
+assert total_power == p2_expected
+print(f"{DAY} Part 1: {game_sum}")
+print(f"{DAY} Part 2: {total_power}")

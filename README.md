@@ -1,4 +1,4 @@
-# Advent of Code 
+# Advent of Code
 
 My [Advent of Code](https://adventofcode.com) solutions.
 
@@ -9,10 +9,9 @@ Use input files provided by your [Advent of Code](https://adventofcode.com) logi
 
 For black formatting and flake8 linting:
 
-  - Create a new virtual environment: `python3 -m venv venv`
-  - Activate for bash: `. venv/bin/activate`
-  - (Activate for fish: `. venv/bin/activate.fish`)
-  - pip install: `pip install -r requirements.txt`
-  - For formatting run: `black .`
-  - For linting run: `flake8 .`
-
+- Create a new virtual environment: `python3 -m venv venv`
+- Activate for bash: `. venv/bin/activate`
+- (Activate for fish: `. venv/bin/activate.fish`)
+- pip install: `pip install black flake8`
+- For formatting run: `black .`
+- For linting run: `flake8 .`

@@ -1,4 +1,10 @@
-with open("day09/input.txt") as fin:
+import sys
+
+from util import expected_for_day
+
+DAY = sys.argv[0].split(".")[0]
+
+with open(f"{DAY}/input.txt") as fin:
     lines = fin.read().strip().split("\n")
 
 
@@ -26,5 +32,12 @@ for line in lines:
     arr2 = list(map(int, line.split()[::-1]))
     p2_ans.append(extrapolate(arr2))
 
-print("Part 1:", sum(p1_ans))
-print("Part 2:", sum(p2_ans))
+p1_result = sum(p1_ans)
+p2_result = sum(p2_ans)
+
+
+p1_expected, p2_expected = expected_for_day(DAY)
+assert p1_result == p1_expected
+assert p2_result == p2_expected
+print(f"{DAY} Part 1: {p1_result}")
+print(f"{DAY} Part 2: {p2_result}")

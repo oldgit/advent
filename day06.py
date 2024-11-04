@@ -1,5 +1,11 @@
+import sys
+
+from util import expected_for_day
+
+DAY = sys.argv[0].split(".")[0]
+
 LINES = []
-with open("day06/input.txt", "r") as file:
+with open(f"{DAY}/input.txt", "r") as file:
     LINES = file.read().splitlines()
 
 t, d = LINES
@@ -28,7 +34,7 @@ def f_binary(t, d):
     hi = t // 2
     if hi * (t - hi) < d:
         return 0
-    assert g(lo) < d and g(hi) >= d
+    assert g(lo) < d <= g(hi)
     while lo + 1 < hi:
         m = (lo + hi) // 2
         if g(m) >= d:
@@ -36,15 +42,15 @@ def f_binary(t, d):
         else:
             lo = m
     assert lo + 1 == hi
-    assert g(lo) < d and g(hi) >= d
+    assert g(lo) < d <= g(hi)
     first = hi
-    assert g(first) >= d and g(first - 1) < d
+    assert g(first) >= d > g(first - 1)
 
     # g(x) == g(t-x), so there's symmetry about the midpoint t/2
     last = int((t / 2) + (t / 2 - first))
     assert (
-        g(last) >= d and g(last + 1) < d
-    ), f"last={last} g(last)={g(last)} {g(last+1)} d={d}"
+        g(last) >= d > g(last + 1)
+    ), f"last={last} g(last)={g(last)} {g(last + 1)} d={d}"
     return last - first + 1
 
 
@@ -56,5 +62,8 @@ pt2_time = int("".join(map(str, times)))
 pt2_dist = int("".join(map(str, dist)))
 pt2_ans = f_binary(pt2_time, pt2_dist)
 
-print("Part 1:", pt1_ans)
-print("Part 2:", pt2_ans)
+p1_expected, p2_expected = expected_for_day(DAY)
+assert pt1_ans == p1_expected
+assert pt2_ans == p2_expected
+print(f"{DAY} Part 1: {pt1_ans}")
+print(f"{DAY} Part 2: {pt2_ans}")

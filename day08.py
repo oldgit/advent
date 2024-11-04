@@ -1,10 +1,15 @@
+import sys
 import math
 import re
+
+from util import expected_for_day
+
+DAY = sys.argv[0].split(".")[0]
 
 STEPS = ""
 NODES = {}
 
-with open("day08/input.txt") as fin:
+with open(f"{DAY}/input.txt") as fin:
     raw_lines = fin.read().strip().split("\n")
     STEPS = raw_lines[0]
     for line in raw_lines[2:]:
@@ -39,5 +44,12 @@ def n_steps(cur):
 start_nodes = [n for n in NODES if n[2] == "A"]
 steps = [n_steps(node) for node in start_nodes]
 
-print("Part 1:", count)
-print("Part 2:", math.lcm(*steps))
+p1_result = count
+p2_result = math.lcm(*steps)
+
+
+p1_expected, p2_expected = expected_for_day(DAY)
+assert p1_result == p1_expected
+assert p2_result == p2_expected
+print(f"{DAY} Part 1: {p1_result}")
+print(f"{DAY} Part 2: {p2_result}")

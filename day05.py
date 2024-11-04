@@ -1,4 +1,10 @@
-with open("day05/input.txt") as fin:
+import sys
+
+from util import expected_for_day
+
+DAY = sys.argv[0].split(".")[0]
+
+with open(f"{DAY}/input.txt") as fin:
     lines = fin.read().strip().split("\n")
 
 RAW_SEEDS = list(map(int, lines[0].split(" ")[1:]))
@@ -37,20 +43,20 @@ def remap(lo, hi, m):
 
     for i, interval in enumerate(ans):
         ilo, ihi, iD = interval
-        yield (ilo + iD, ihi + iD)
+        yield ilo + iD, ihi + iD
 
         if i < len(ans) - 1 and ans[i + 1][0] > ihi + 1:
-            yield (ihi + 1, ans[i + 1][0] - 1)
+            yield ihi + 1, ans[i + 1][0] - 1
 
     # Deal with end and start ranges not in intervals
     if len(ans) == 0:
-        yield (lo, hi)
+        yield lo, hi
         return
 
     if ans[0][0] != lo:
-        yield (lo, ans[0][0] - 1)
+        yield lo, ans[0][0] - 1
     if ans[-1][1] != hi:
-        yield (ans[-1][1] + 1, hi)
+        yield ans[-1][1] + 1, hi
 
 
 def find_location(seeds):
@@ -71,5 +77,11 @@ def find_location(seeds):
     return ans
 
 
-print("Part 1:", find_location(map(lambda x: (x, 1), RAW_SEEDS)))
-print("Part 2:", find_location(SEEDS))
+p1_result = find_location(map(lambda x: (x, 1), RAW_SEEDS))
+p2_result = find_location(SEEDS)
+
+p1_expected, p2_expected = expected_for_day(DAY)
+assert p1_result == p1_expected
+assert p2_result == p2_expected
+print(f"{DAY} Part 1: {p1_result}")
+print(f"{DAY} Part 2: {p2_result}")
