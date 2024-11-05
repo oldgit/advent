@@ -1,7 +1,7 @@
 import sys
 from util import expected_for_day
 
-DAY = sys.argv[0].split(".")[0]
+DAY = sys.argv[0].split("/")[-1].split(".")[0]
 
 DIGITS = {str(i): i for i in range(1, 10)}
 
@@ -32,7 +32,7 @@ def calibration(line, digit_map):
     return (start * 10) + end
 
 
-with open(f"{DAY}/input.txt", "r") as file:
+with open(f"data/{DAY}/input.txt", "r") as file:
     LINES = file.read().splitlines()
 
 p1_result = 0

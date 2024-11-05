@@ -4,7 +4,7 @@ from collections import defaultdict
 
 from util import expected_for_day
 
-DAY = sys.argv[0].split(".")[0]
+DAY = sys.argv[0].split("/")[-1].split(".")[0]
 
 
 class Graph:
@@ -20,7 +20,7 @@ class Graph:
 
 def get_graph():
     graph = Graph()
-    with open(f"{DAY}/input.txt") as fin:
+    with open(f"data/{DAY}/input.txt") as fin:
         lines = fin.read().strip().split("\n")
         for LINE in lines:
             k, vt = LINE.split(": ")

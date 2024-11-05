@@ -1,5 +1,5 @@
 venv/
-day??/
+data/
 __pycache__/
 .idea/
 *.iml

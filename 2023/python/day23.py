@@ -5,7 +5,7 @@ from util import expected_for_day
 
 sys.setrecursionlimit(1000000)
 
-DAY = sys.argv[0].split(".")[0]
+DAY = sys.argv[0].split("/")[-1].split(".")[0]
 
 SLOPE_DIRS = {"^": (-1, 0), "v": (1, 0), ">": (0, 1), "<": (0, -1)}
 SLOPES = list(SLOPE_DIRS.keys())
@@ -13,7 +13,7 @@ DIRS = list(SLOPE_DIRS.values())
 BEST = 0
 
 
-with open(f"{DAY}/input.txt") as fin:
+with open(f"data/{DAY}/input.txt") as fin:
     GRID = [list(line) for line in fin.read().strip().split("\n")]
     N, M = len(GRID), len(GRID[0])
 
@@ -29,7 +29,7 @@ def adjacent(current: tuple[int, int], pt1: bool):
     for dx, dy in adjacent_s:
         nx, ny = cx + dx, cy + dy
         if nx in range(N) and ny in range(M) and GRID[nx][ny] != "#":
-            yield (nx, ny)
+            yield nx, ny
 
 
 def get_junction_vertices(pt1: bool):
@@ -37,8 +37,8 @@ def get_junction_vertices(pt1: bool):
     for i in range(N):
         for j in range(M):
             if GRID[i][j] != "#":
-                num_adjacents = len(list(adjacent((i, j), pt1)))
-                if num_adjacents > 2:
+                num_adjacent = len(list(adjacent((i, j), pt1)))
+                if num_adjacent > 2:
                     vs.add((i, j))
     vs.add(START_POINT)
     vs.add(END_POINT)
@@ -48,8 +48,7 @@ def get_junction_vertices(pt1: bool):
 def build_compressed_graph(junction_vertices: set[tuple[int, int]], pt1: bool):
     graph_dict = defaultdict(list)
     for x, y in junction_vertices:
-        q = []
-        q.append((x, y))
+        q = [(x, y)]
         seen = {(x, y)}
         dist = 0
         while len(q) > 0:
@@ -71,15 +70,15 @@ def dfs(
     graph_dict: defaultdict[tuple[int, int], list[tuple[int, tuple[int, int]]]],
     current: tuple[int, int],
     path_set: set[tuple[int, int]],
-    totaldist: int,
+    total_dist: int,
 ):
     global BEST
-    if current == (N - 1, M - 2) and totaldist > BEST:
-        BEST = max(BEST, totaldist)
+    if current == (N - 1, M - 2) and total_dist > BEST:
+        BEST = max(BEST, total_dist)
     for dist, a in graph_dict[current]:
         if a not in path_set:
             path_set.add(a)
-            dfs(graph_dict, a, path_set, totaldist + dist)
+            dfs(graph_dict, a, path_set, total_dist + dist)
             path_set.remove(a)
 
 

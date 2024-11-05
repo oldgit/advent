@@ -2,15 +2,13 @@ import sys
 
 from util import expected_for_day
 
-DAY = sys.argv[0].split(".")[0]
+DAY = sys.argv[0].split("/")[-1].split(".")[0]
 
-LINES = []
-with open(f"{DAY}/input.txt", "r") as file:
-    LINES = file.read().splitlines()
 
-t, d = LINES
-times = [int(x) for x in t.split(":")[1].split()]
-dist = [int(x) for x in d.split(":")[1].split()]
+with open(f"data/{DAY}/input.txt", "r") as file:
+    T, D = file.read().splitlines()
+    TIMES = [int(x) for x in T.split(":")[1].split()]
+    DIST = [int(x) for x in D.split(":")[1].split()]
 
 
 def f_simple(t, d):
@@ -55,11 +53,11 @@ def f_binary(t, d):
 
 
 pt1_ans = 1
-for i in range(len(times)):
-    pt1_ans *= f_simple(times[i], dist[i])
+for i in range(len(TIMES)):
+    pt1_ans *= f_simple(TIMES[i], DIST[i])
 
-pt2_time = int("".join(map(str, times)))
-pt2_dist = int("".join(map(str, dist)))
+pt2_time = int("".join(map(str, TIMES)))
+pt2_dist = int("".join(map(str, DIST)))
 pt2_ans = f_binary(pt2_time, pt2_dist)
 
 p1_expected, p2_expected = expected_for_day(DAY)

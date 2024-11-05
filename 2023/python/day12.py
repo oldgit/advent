@@ -2,11 +2,11 @@ import sys
 
 from util import expected_for_day
 
-DAY = sys.argv[0].split(".")[0]
+DAY = sys.argv[0].split("/")[-1].split(".")[0]
 
 CACHE = {}
 
-with open(f"{DAY}/input.txt") as fin:
+with open(f"data/{DAY}/input.txt") as fin:
     lines_in = fin.read().strip().split("\n")
 
 

@@ -2,9 +2,9 @@ import sys
 
 from util import expected_for_day
 
-DAY = sys.argv[0].split(".")[0]
+DAY = sys.argv[0].split("/")[-1].split(".")[0]
 
-with open(f"{DAY}/input.txt") as fin:
+with open(f"data/{DAY}/input.txt") as fin:
     grid = fin.read().strip().split("\n")
 
 
@@ -16,7 +16,6 @@ def process_light_rays(sr, sc, sdr, sdc):
 
     while len(light_rays) > 0:
         r, c, dr, dc = light_rays.pop(0)
-
         r += dr
         c += dc
 

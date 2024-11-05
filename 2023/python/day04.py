@@ -3,7 +3,7 @@ from collections import Counter
 
 from util import expected_for_day
 
-DAY = sys.argv[0].split(".")[0]
+DAY = sys.argv[0].split("/")[-1].split(".")[0]
 
 """
 Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53
@@ -18,9 +18,9 @@ CARDS = []
 
 
 def get_card_points(line):
-    (wint, numt) = line.split(":")[1].split(" | ")
-    wins = wint.split()
-    nums = numt.split()
+    (win_text, num_text) = line.split(":")[1].split(" | ")
+    wins = win_text.split()
+    nums = num_text.split()
     CARDS.append((wins, nums))
     result = 0
     for win in wins:
@@ -34,7 +34,7 @@ def get_card_points(line):
 
 pt1_result = 0
 pt2_card_copies = Counter()
-with open(f"{DAY}/input.txt", "r") as file:
+with open(f"data/{DAY}/input.txt", "r") as file:
     for line_in in file.read().splitlines():
         pt1_result = pt1_result + get_card_points(line_in)
 

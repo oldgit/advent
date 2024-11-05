@@ -4,7 +4,7 @@ from functools import cmp_to_key
 
 from util import expected_for_day
 
-DAY = sys.argv[0].split(".")[0]
+DAY = sys.argv[0].split("/")[-1].split(".")[0]
 
 WITH_JOKERS = False
 LABELS = "AKQJT98765432"
@@ -65,10 +65,10 @@ def get_type_p2(hand):
 
 def compare(a, b):
     # a and b are two hands
-    rankA = (get_type_p2(a) if WITH_JOKERS else get_type_p1(a), a)
-    rankB = (get_type_p2(b) if WITH_JOKERS else get_type_p1(b), b)
+    rank_a = (get_type_p2(a) if WITH_JOKERS else get_type_p1(a), a)
+    rank_b = (get_type_p2(b) if WITH_JOKERS else get_type_p1(b), b)
     labels = JOKER_LABELS if WITH_JOKERS else LABELS
-    if rankA[0] == rankB[0]:
+    if rank_a[0] == rank_b[0]:
         if a == b:
             return 0
         for i, j in zip(a, b):
@@ -77,28 +77,28 @@ def compare(a, b):
             if labels.index(i) > labels.index(j):
                 return -1
         return -1
-    if rankA[0] > rankB[0]:
+    if rank_a[0] > rank_b[0]:
         return 1
     return -1
 
 
 LINES = []
-with open(f"{DAY}/input.txt") as fin:
+with open(f"data/{DAY}/input.txt") as fin:
     raw_lines = fin.read().strip().split("\n")
     for line in raw_lines:
-        hand_bid = line.split()
+        hand_bid = tuple(line.split())
         LINES.append((hand_bid[0], int(hand_bid[1])))
 
 pt1_result = 0
 P1_LINES = sorted(LINES, key=cmp_to_key(lambda x, y: compare(x[0], y[0])))
-for i, line in enumerate(P1_LINES):
-    pt1_result += (i + 1) * line[1]
+for GI, line in enumerate(P1_LINES):
+    pt1_result += (GI + 1) * line[1]
 
 pt2_result = 0
 WITH_JOKERS = True
 P2_LINES = sorted(LINES, key=cmp_to_key(lambda x, y: compare(x[0], y[0])))
-for i, line in enumerate(P2_LINES):
-    pt2_result += (i + 1) * line[1]
+for GI, line in enumerate(P2_LINES):
+    pt2_result += (GI + 1) * line[1]
 
 
 p1_expected, p2_expected = expected_for_day(DAY)

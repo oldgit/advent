@@ -4,7 +4,7 @@ from collections import deque
 
 from util import expected_for_day
 
-DAY = sys.argv[0].split(".")[0]
+DAY = sys.argv[0].split("/")[-1].split(".")[0]
 
 # FLIP_FLOP dict[name, (ON/OFF, destinations)]
 FLIP_FLOPS: dict[str, tuple[bool, list[str]]] = {}
@@ -16,7 +16,7 @@ HIGH = 0
 PT2_CONS: list[str] = []
 PT2_COUNTS: list[int] = []
 
-with open(f"{DAY}/input.txt") as file:
+with open(f"data/{DAY}/input.txt") as file:
     for line in file.read().splitlines():
         (module, destinations) = line.split(" -> ")
         first_char = module[0:1]

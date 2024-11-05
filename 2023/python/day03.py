@@ -2,7 +2,7 @@ import sys
 
 from util import expected_for_day
 
-DAY = sys.argv[0].split(".")[0]
+DAY = sys.argv[0].split("/")[-1].split(".")[0]
 
 NUMBERS = []
 SYMBOLS = []
@@ -12,6 +12,7 @@ GEAR_POS = []
 def get_numbers_symbols_gears(y, line):
     number = ""
     number_start = None
+    x = -1
     for x, c in enumerate(line):
         if c.isdigit():
             if not number:
@@ -52,7 +53,7 @@ def gear_ratio_for_pos(pos):
     return gears[0] * gears[1] if len(gears) == 2 else 0
 
 
-with open(f"{DAY}/input.txt", "r") as file:
+with open(f"data/{DAY}/input.txt", "r") as file:
     for y_in, line_in in enumerate(file.read().splitlines()):
         get_numbers_symbols_gears(y_in, line_in)
 

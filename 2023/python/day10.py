@@ -2,18 +2,18 @@ import sys
 
 from util import expected_for_day
 
-DAY = sys.argv[0].split(".")[0]
+DAY = sys.argv[0].split("/")[-1].split(".")[0]
 
-with open(f"{DAY}/input.txt") as fin:
-    lines = fin.read().strip().split("\n")
+with open(f"data/{DAY}/input.txt") as fin:
+    LINES = fin.read().strip().split("\n")
 
-n, m = len(lines), len(lines[0])
+n, m = len(LINES), len(LINES[0])
 
 # Find starting point si, sj
 si, sj = None, None
-for i, line in enumerate(lines):
-    if "S" in line:
-        si, sj = i, line.index("S")
+for GI, LINE in enumerate(LINES):
+    if "S" in LINE:
+        si, sj = GI, LINE.index("S")
         break
 assert si is not None
 assert sj is not None
@@ -30,9 +30,9 @@ dirs = {
 }
 
 
-def get_nbrs(i, j):
+def get_numbers(i, j):
     res = []
-    for di, dj in list(dirs[lines[i][j]]):
+    for di, dj in list(dirs[LINES[i][j]]):
         ii, jj = i + di, j + dj
         if not (0 <= ii < n and 0 <= jj < m):
             continue
@@ -46,14 +46,14 @@ def find_start_pipe():
         ii, jj = si + di, sj + dj
         if not (0 <= ii < n and 0 <= jj < m):
             continue
-        if (si, sj) in list(get_nbrs(ii, jj)):
+        if (si, sj) in list(get_numbers(ii, jj)):
             didjs.append((di, dj))
 
     # Find which character corresponds to this one
     # "ds" for "dirs"
     for char, ds in dirs.items():
         if sorted(ds) == sorted(didjs):
-            lines[si] = lines[si].replace("S", char)
+            LINES[si] = LINES[si].replace("S", char)
             break
 
 
@@ -67,16 +67,16 @@ while len(stack) > 0:
         continue
     visited.add(top)
 
-    for nbr in list(get_nbrs(*top)):
+    for nbr in list(get_numbers(*top)):
         if nbr in visited:
             continue
         stack.append(nbr)
 
 
 # Count the number of "inversions" in a row
-def count_invs(i, j):
+def count_inversions(i, j):
     # Everything up to (but not including) j in line i
-    line = lines[i]
+    line = LINES[i]
     count = 0
     for k in range(j):
         if (i, k) not in visited:
@@ -88,10 +88,10 @@ def count_invs(i, j):
 
 p1_result = len(visited) // 2
 p2_result = 0
-for i, line in enumerate(lines):
-    for j in range(m):
-        if (i, j) not in visited:
-            invs = count_invs(i, j)
+for GI, LINE in enumerate(LINES):
+    for J in range(m):
+        if (GI, J) not in visited:
+            invs = count_inversions(GI, J)
             if invs % 2 == 1:
                 p2_result += 1
 

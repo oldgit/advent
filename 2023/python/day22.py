@@ -3,11 +3,11 @@ from collections import defaultdict
 
 from util import expected_for_day
 
-DAY = sys.argv[0].split(".")[0]
+DAY = sys.argv[0].split("/")[-1].split(".")[0]
 
 BRICKS = []
 
-with open(f"{DAY}/input.txt") as fin:
+with open(f"data/{DAY}/input.txt") as fin:
     LINES = fin.read().strip().split("\n")
     for LINE in LINES:
         a, b = LINE.split("~")

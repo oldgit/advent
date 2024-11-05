@@ -1,15 +1,14 @@
-import sys
 import math
 import re
+import sys
 
 from util import expected_for_day
 
-DAY = sys.argv[0].split(".")[0]
+DAY = sys.argv[0].split("/")[-1].split(".")[0]
 
-STEPS = ""
 NODES = {}
 
-with open(f"{DAY}/input.txt") as fin:
+with open(f"data/{DAY}/input.txt") as fin:
     raw_lines = fin.read().strip().split("\n")
     STEPS = raw_lines[0]
     for line in raw_lines[2:]:
@@ -18,15 +17,15 @@ with open(f"{DAY}/input.txt") as fin:
         parent, left, right = search.groups(0)
         NODES[parent] = (left, right)
 
-cur = "AAA"
-count = 0
-while cur != "ZZZ":
-    step = STEPS[count % len(STEPS)]
-    if step == "L":
-        cur = NODES[cur][0]
+CUR = "AAA"
+COUNT = 0
+while CUR != "ZZZ":
+    STEP = STEPS[COUNT % len(STEPS)]
+    if STEP == "L":
+        CUR = NODES[CUR][0]
     else:
-        cur = NODES[cur][1]
-    count += 1
+        CUR = NODES[CUR][1]
+    COUNT += 1
 
 
 def n_steps(cur):
@@ -44,9 +43,8 @@ def n_steps(cur):
 start_nodes = [n for n in NODES if n[2] == "A"]
 steps = [n_steps(node) for node in start_nodes]
 
-p1_result = count
+p1_result = COUNT
 p2_result = math.lcm(*steps)
-
 
 p1_expected, p2_expected = expected_for_day(DAY)
 assert p1_result == p1_expected

@@ -2,25 +2,25 @@ import sys
 
 from util import expected_for_day
 
-DAY = sys.argv[0].split(".")[0]
+DAY = sys.argv[0].split("/")[-1].split(".")[0]
 
 MIN = 200000000000000
 MAX = 400000000000000
 STONES = []
 
-with open(f"{DAY}/input.txt") as fin:
+with open(f"data/{DAY}/input.txt") as fin:
     LINES = fin.read().strip().split("\n")
     for LINE in LINES:
-        pos, vel = LINE.split(" @ ")
-        pos = tuple(map(int, pos.split(",")))
-        vel = tuple(map(int, vel.split(",")))
-        STONES.append((pos, vel))
+        POS, VEL = LINE.split(" @ ")
+        POS = tuple(map(int, POS.split(",")))
+        VEL = tuple(map(int, VEL.split(",")))
+        STONES.append((POS, VEL))
 
 
 def subtract(a, b):
     ax, ay, az = a
     bx, by, bz = b
-    return (ax - bx, ay - by, az - bz)
+    return ax - bx, ay - by, az - bz
 
 
 def dot_prod(a, b):
@@ -42,7 +42,7 @@ def new_pos(stone, time):
     pos, vel = stone
     x, y, z = pos
     dx, dy, dz = vel[0] * time, vel[1] * time, vel[2] * time
-    return (x + dx, y + dy, z + dz)
+    return x + dx, y + dy, z + dz
 
 
 def part_1():
@@ -62,7 +62,7 @@ def part_1():
                 continue
             xi = jp[0] + jv[0] * v
             yi = jp[1] + jv[1] * v
-            if xi >= MIN and xi <= MAX and yi >= MIN and yi <= MAX:
+            if MIN <= xi <= MAX and MIN <= yi <= MAX:
                 result += 1
     return result
 

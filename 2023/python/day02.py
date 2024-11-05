@@ -2,7 +2,7 @@ import sys
 
 from util import expected_for_day
 
-DAY = sys.argv[0].split(".")[0]
+DAY = sys.argv[0].split("/")[-1].split(".")[0]
 
 POSSIBLE_NUMBERS = {"red": 12, "green": 13, "blue": 14}
 
@@ -31,7 +31,7 @@ def game_power(sets):
 
 game_sum = 0
 total_power = 0
-with open(f"{DAY}/input.txt", "r") as file:
+with open(f"data/{DAY}/input.txt", "r") as file:
     for line in file.read().splitlines():
         (game, sets_in) = line.split(": ")
         game_number = int(game.split(" ")[1])

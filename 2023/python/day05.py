@@ -2,9 +2,9 @@ import sys
 
 from util import expected_for_day
 
-DAY = sys.argv[0].split(".")[0]
+DAY = sys.argv[0].split("/")[-1].split(".")[0]
 
-with open(f"{DAY}/input.txt") as fin:
+with open(f"data/{DAY}/input.txt") as fin:
     lines = fin.read().strip().split("\n")
 
 RAW_SEEDS = list(map(int, lines[0].split(" ")[1:]))
@@ -25,10 +25,10 @@ while i < len(lines):
     i += 1
 
 # Ensure that all mappings are disjoint
-for m in MAPS:
-    for i in range(len(m) - 1):
-        if not m[i][1] + m[i][2] <= m[i + 1][1]:
-            print(m[i], m[i + 1])
+for M in MAPS:
+    for i in range(len(M) - 1):
+        if not M[i][1] + M[i][2] <= M[i + 1][1]:
+            print(M[i], M[i + 1])
 
 
 def remap(lo, hi, m):
@@ -36,14 +36,14 @@ def remap(lo, hi, m):
     ans = []
     for dst, src, R in m:
         end = src + R - 1
-        D = dst - src  # How much is this range shifted
+        d = dst - src  # How much is this range shifted
 
         if not (end < lo or src > hi):
-            ans.append((max(src, lo), min(end, hi), D))
+            ans.append((max(src, lo), min(end, hi), d))
 
     for i, interval in enumerate(ans):
-        ilo, ihi, iD = interval
-        yield ilo + iD, ihi + iD
+        ilo, ihi, i_d = interval
+        yield ilo + i_d, ihi + i_d
 
         if i < len(ans) - 1 and ans[i + 1][0] > ihi + 1:
             yield ihi + 1, ans[i + 1][0] - 1

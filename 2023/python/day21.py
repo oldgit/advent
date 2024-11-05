@@ -3,11 +3,11 @@ from collections import deque
 
 from util import expected_for_day
 
-DAY = sys.argv[0].split(".")[0]
+DAY = sys.argv[0].split("/")[-1].split(".")[0]
 
 DIRECTIONS = [(-1, 0), (1, 0), (0, 1), (0, -1)]
 
-with open(f"{DAY}/input.txt") as fin:
+with open(f"data/{DAY}/input.txt") as fin:
     LINES = fin.read().strip().split("\n")
 
 I_MAX, J_MAX = len(LINES), len(LINES[0])
