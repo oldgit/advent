@@ -99,7 +99,7 @@ def karger_min_cut(graph: Graph):
 
 def repeated_karger(graph, expected_min_cut):
     cut_value = 100
-    partitions = None
+    partitions = []
 
     while cut_value > expected_min_cut:
         cut_value, partitions = karger_min_cut(graph)
