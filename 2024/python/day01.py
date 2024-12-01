@@ -35,6 +35,6 @@ p2_result = part2(LIST_1, LIST_2)
 
 p1_expected, p2_expected = expected_for_day(DAY)
 assert p1_result == p1_expected
-# assert p2_result == p2_expected
+assert p2_result == p2_expected
 print(f"{DAY} Part 1: {p1_result}")
 print(f"{DAY} Part 2: {p2_result}")
