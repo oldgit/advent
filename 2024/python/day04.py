@@ -10,24 +10,29 @@ with open(f"data/{DAY}/input.txt", "r") as file:
     MAX_COLS = len(GRID[0])
 
 
-def create_words():
-    words = []
-    for y in range(MAX_ROWS):
-        for x in range(MAX_COLS):
-            if y + 3 < MAX_ROWS:
-                words.append("".join(GRID[y + n][x] for n in range(4)))
-            if x + 3 < MAX_COLS:
-                words.append("".join(GRID[y][x + n] for n in range(4)))
-            if x + 3 < MAX_COLS and y + 3 < MAX_ROWS:
-                words.append("".join(GRID[y + n][x + n] for n in range(4)))
-            if x - 3 >= 0 and y + 3 < MAX_ROWS:
-                words.append("".join(GRID[y + n][x - n] for n in range(4)))
-    return words
+def inc_if_xmas(word, count):
+    if word == "XMAS" or word == "SAMX":
+        count += 1
+    return count
 
 
 def part1():
-    words = [w for w in create_words() if w == "XMAS" or w == "SAMX"]
-    return len(words)
+    count = 0
+    for y in range(MAX_ROWS):
+        for x in range(MAX_COLS):
+            if y + 3 < MAX_ROWS:
+                count = inc_if_xmas("".join(GRID[y + n][x] for n in range(4)), count)
+            if x + 3 < MAX_COLS:
+                count = inc_if_xmas("".join(GRID[y][x + n] for n in range(4)), count)
+            if x + 3 < MAX_COLS and y + 3 < MAX_ROWS:
+                count = inc_if_xmas(
+                    "".join(GRID[y + n][x + n] for n in range(4)), count
+                )
+            if x - 3 >= 0 and y + 3 < MAX_ROWS:
+                count = inc_if_xmas(
+                    "".join(GRID[y + n][x - n] for n in range(4)), count
+                )
+    return count
 
 
 def part2():
