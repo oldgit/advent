@@ -1,6 +1,5 @@
 import itertools
 import sys
-from urllib.response import addinfourl
 
 from util import expected_for_day
 
