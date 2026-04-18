@@ -1,6 +1,7 @@
 #!/bin/sh
+days="${1:-25}"
 i=1
-while [ "$i" -le 25 ]; do
+while [ "$i" -le $days ]; do
   day_file="day$i.py"
   if [ "$i" -lt 10 ]; then
     day_file="day0$i.py"
@@ -8,5 +9,5 @@ while [ "$i" -le 25 ]; do
   if [ -f "$day_file" ]; then
     python "$day_file"
   fi
-  i=$(( i + 1 ))
+  i=$((i + 1))
 done

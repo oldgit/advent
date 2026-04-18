@@ -34,14 +34,14 @@ def solve(antennas, part_2=False):
             dx = start_x - end_x
 
             if part_2:
-                aa = (start_x, start_y)
                 i = 1
+                aa = (start_x, start_y)
                 while in_grid(aa):
                     antinodes.add(aa)
                     aa = (start_x + dx * i, start_y + dy * i)
                     i += 1
-                bb = (end_x, end_y)
                 j = 1
+                bb = (end_x, end_y)
                 while in_grid(bb):
                     antinodes.add(bb)
                     bb = (end_x - dx * j, end_y - dy * j)
