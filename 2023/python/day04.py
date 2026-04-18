@@ -18,7 +18,7 @@ CARDS = []
 
 
 def get_card_points(line):
-    (win_text, num_text) = line.split(":")[1].split(" | ")
+    win_text, num_text = line.split(":")[1].split(" | ")
     wins = win_text.split()
     nums = num_text.split()
     CARDS.append((wins, nums))

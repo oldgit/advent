@@ -18,7 +18,7 @@ PT2_COUNTS: list[int] = []
 
 with open(f"data/{DAY}/input.txt") as file:
     for line in file.read().splitlines():
-        (module, destinations) = line.split(" -> ")
+        module, destinations = line.split(" -> ")
         first_char = module[0:1]
         match first_char:
             case "b":

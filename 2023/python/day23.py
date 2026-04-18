@@ -25,7 +25,7 @@ def adjacent(current: tuple[int, int], pt1: bool):
     cx, cy = current
     adjacent_s = DIRS
     if pt1 and GRID[cx][cy] in SLOPES:
-        adjacent_s = [(SLOPE_DIRS[GRID[cx][cy]])]
+        adjacent_s = [SLOPE_DIRS[GRID[cx][cy]]]
     for dx, dy in adjacent_s:
         nx, ny = cx + dx, cy + dy
         if nx in range(N) and ny in range(M) and GRID[nx][ny] != "#":
